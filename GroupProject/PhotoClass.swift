@@ -9,22 +9,31 @@
 class PhotoClass {
     
     var title: String!
-    var url: String!
+    var image: UIImage!
     var uid: String!
     var tags = [String]()
     
-    init(title: String, url: String, uid: String, tags: [String]) {
+    init(title: String, image: UIImage, uid: String, tags: [String]) {
         self.title = title
-        self.url = url
+        self.image = image
         self.uid = uid
         self.tags = tags
         
+        var imageData = UIImagePNGRepresentation(image)
+        var imageFile = PFFile(name: "image.png", data: imageData)
+        var wallet = WalletClass.sharedInstance
+        
         var object = PFObject(className: "PhotoClass")
         object["title"] = title
-        object["url"] = url
+        object["imageFile"] = imageFile
         object["uid"] = uid
         object["tags"] = tags
-        object.saveInBackground()
+        object.saveInBackgroundWithBlock {
+            (finished: Bool, error: NSError!) -> Void in
+            if error == nil {
+                wallet.getAllPhotos()
+            }
+        }
     }
 
 }

@@ -8,92 +8,75 @@
 
 import UIKit
 
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     var uid: String!
     @IBOutlet weak var photoImageView: UIImageView!
-    var photosArray = [PFObject]()
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTableView:" , name: "kUpdatedPhotoArray", object: nil)
         uid = UIDevice.currentDevice().identifierForVendor.UUIDString
         tableView.hidden = true
         signUp()
     }
     
-    func randomFunc() {
-        var photo = PhotoClass(title: "title1", url: "https://dt8kf6553cww8.cloudfront.net/static/images/brand/logotype-vflFbF9pY.png", uid: PFUser.currentUser().username, tags: [])
-        var photo1 = PhotoClass(title: "title2", url: "https://dt8kf6553cww8.cloudfront.net/static/images/brand/logotype-vflFbF9pY.png", uid: PFUser.currentUser().username, tags: [])
-        var photo2 = PhotoClass(title: "title3", url: "https://dt8kf6553cww8.cloudfront.net/static/images/brand/logotype-vflFbF9pY.png", uid: PFUser.currentUser().username, tags: [])
-        var photo3 = PhotoClass(title: "title4", url: "https://dt8kf6553cww8.cloudfront.net/static/images/brand/logotype-vflFbF9pY.png", uid: PFUser.currentUser().username, tags: [])
-        var photo4 = PhotoClass(title: "title5", url: "https://dt8kf6553cww8.cloudfront.net/static/images/brand/logotype-vflFbF9pY.png", uid: PFUser.currentUser().username, tags: [])
+    func createShit() {
+        var photo = PhotoClass(title: "soething else assdaf 1", image: photoImageView.image, uid: PFUser.currentUser().username, tags: [])
+        var photo1 = PhotoClass(title: "soething else assdaf 2", image: photoImageView.image, uid: PFUser.currentUser().username, tags: [])
+        var photo2 = PhotoClass(title: "soething else assdaf 3", image: photoImageView.image, uid: PFUser.currentUser().username, tags: [])
     }
     
-    func setImage() {
-        var query = PFQuery(className: "UserPhoto")
-        var object = query.getFirstObject() as PFObject
-        var userImageFile = object["imageFile"] as PFFile
-        println(userImageFile)
-        userImageFile.getDataInBackgroundWithBlock({
+    @IBAction func refreshButton(sender: AnyObject) {
+        var wallet = WalletClass.sharedInstance
+        wallet.getAllPhotos()
+//        tableView.reloadData()
+    }
+    
+    func startAppWithUser() {
+//        createShit()
+        var wallet = WalletClass.sharedInstance
+        wallet.getAllPhotos()
+        tableView.hidden = false
+        tableView.contentInset.top = navigationController.navigationBar.frame.height + UIApplication.sharedApplication().statusBarFrame.size.height
+    }
+    
+    func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+        var wallet = WalletClass.sharedInstance
+        println("number rows in table \(wallet.getPhotosArray().count)")
+        return wallet.getPhotosArray().count
+    }
+    
+    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+        var cell = tableView.dequeueReusableCellWithIdentifier("cell") as PhotoTableViewCell
+        var wallet = WalletClass.sharedInstance
+        var row = wallet.getPhotosArray()[indexPath.row]
+        var title = row["title"]
+        cell.mainTitle.text = "\(title)"
+        
+        var cellImageFile = row["imageFile"] as PFFile
+        cellImageFile.getDataInBackgroundWithBlock({
             (imageData: NSData!, error: NSError!) -> Void in
             if error == nil {
-                self.photoImageView.image = UIImage(data:imageData)
-            } else {
-                println(error)
-            }
-        })
-    }
-    
-    func saveImage() {
-        var imageData = UIImagePNGRepresentation(photoImageView.image)
-        var imageFile = PFFile(name: "image.png", data: imageData)
-        
-        var object = PFObject(className: "UserPhoto")
-        object["imageFile"] = imageFile
-        object.saveInBackground()
-    }
-    
-    func getAllPhotos() {
-        var query = PFQuery(className: "PhotoClass")
-        query.whereKey("uid", equalTo: PFUser.currentUser().username)
-        query.findObjectsInBackgroundWithBlock({
-            (block: [AnyObject]!, error: NSError!) in
-            if error == nil {
-                println("getting \(block.count) photos")
-                for item in block {
-                    var row = item as PFObject
-                    self.photosArray.append(row)
-                }
-                self.tableView.reloadData()
+                cell.photoImageView.image = UIImage(data:imageData)
             } else {
                 
             }
         })
-    }
-    
-    func startAppWithUser() {
-//        randomFunc()
-        getAllPhotos()
-        tableView.hidden = false
-    }
-    
-    func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
-        println("number rows in table \(photosArray.count)")
-        return photosArray.count
-    }
-    
-    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
-        var cell = self.tableView.dequeueReusableCellWithIdentifier("cell") as PhotoTableViewCell
-        var row = photosArray[indexPath.row]
-        var title = row["title"] as String
-        cell.mainTitle.text = title
+        
         return cell
     }
     
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
         
+    }
+    
+    func updateTableView(notification: NSNotification!) {
+        var wallet = WalletClass.sharedInstance
+        println("updating table with \(wallet.getPhotosArray().count) cells")
+        tableView.reloadData()
     }
     
     func signUp() {
@@ -125,7 +108,25 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         }
     }
+    
+    func imagePickerController(picker: UIImagePickerController!, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]!) {
+        var chosenImage = info[UIImagePickerControllerEditedImage] as UIImage
+        var photo = PhotoClass(title: "soething else assdaf 1", image: chosenImage, uid: PFUser.currentUser().username, tags: [])
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController!) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
 
+    @IBAction func onCameraButton(sender: AnyObject) {
+        var picker = UIImagePickerController()
+        picker.delegate = self
+        picker.allowsEditing = true
+        picker.sourceType = UIImagePickerControllerSourceType.Camera
+        presentViewController(picker, animated: true, completion: nil)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

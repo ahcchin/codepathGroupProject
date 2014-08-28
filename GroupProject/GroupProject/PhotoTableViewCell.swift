@@ -11,6 +11,7 @@ import UIKit
 class PhotoTableViewCell: UITableViewCell {
 
     @IBOutlet weak var mainTitle: UILabel!
+    @IBOutlet weak var photoImageView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
