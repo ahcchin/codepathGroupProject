@@ -8,81 +8,50 @@
 
 import UIKit
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var uid: String!
     @IBOutlet weak var photoImageView: UIImageView!
-    var images = [AnyObject]()
+    var photosArray = [PFObject]()
+    @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         uid = UIDevice.currentDevice().identifierForVendor.UUIDString
-        
-//        var object = PFObject(className: "TestClass")
-//        object.addObject("Banana", forKey: "favoriteFood")
-//        object.addObject("Chocolate", forKey: "favoriteIceCream")
-//        object.saveInBackground()
-        
-//        signUp()
-        setImage()
-        
-//        var photo = PhotoClass(title: "title", url: "https://dt8kf6553cww8.cloudfront.net/static/images/brand/logotype-vflFbF9pY.png", uid: PFUser.currentUser().username, tags: [])
-//        var photo = PhotoClass(title: "title2", url: "https://dt8kf6553cww8.cloudfront.net/static/images/brand/logotype-vflFbF9pY.png", uid: "asdfasdf", tags: [])
-        
+        tableView.hidden = true
+        signUp()
     }
     
-    func setImage2() {
-        var query = PFQuery(className: "UserPhoto")
-        query.findObjectsInBackgroundWithBlock({
-            (block: [AnyObject]!, error: NSError!) in
-            if (!error) {
-                println("fetching a photos")
-                var i = 0
-                for item in block {
-                    println(item["imageFile"])
-                    println(i)
-                    var object = item as PFObject
-                    self.images.append(object.objectForKey("imageFile"))
-                    self.images[i].getDataInBackgroundWithBlock({
-                        (imageData: NSData!, error: NSError!) in
-                        if (!error) {
-                            //var uiImage = UIImage(data: imageData)
-                        } else {
-                            
-                        }
-                    })
-                    i++
-                }
-                
-            } else {
-                
-            }
-        })
+    func randomFunc() {
+        var photo = PhotoClass(title: "title1", url: "https://dt8kf6553cww8.cloudfront.net/static/images/brand/logotype-vflFbF9pY.png", uid: PFUser.currentUser().username, tags: [])
+        var photo1 = PhotoClass(title: "title2", url: "https://dt8kf6553cww8.cloudfront.net/static/images/brand/logotype-vflFbF9pY.png", uid: PFUser.currentUser().username, tags: [])
+        var photo2 = PhotoClass(title: "title3", url: "https://dt8kf6553cww8.cloudfront.net/static/images/brand/logotype-vflFbF9pY.png", uid: PFUser.currentUser().username, tags: [])
+        var photo3 = PhotoClass(title: "title4", url: "https://dt8kf6553cww8.cloudfront.net/static/images/brand/logotype-vflFbF9pY.png", uid: PFUser.currentUser().username, tags: [])
+        var photo4 = PhotoClass(title: "title5", url: "https://dt8kf6553cww8.cloudfront.net/static/images/brand/logotype-vflFbF9pY.png", uid: PFUser.currentUser().username, tags: [])
     }
     
     func setImage() {
         var query = PFQuery(className: "UserPhoto")
         var object = query.getFirstObject() as PFObject
-        println("Trying some shit")
-        println(object)
-        let userImageFile = object["imageFile"] as PFFile
+        var userImageFile = object["imageFile"] as PFFile
+        println(userImageFile)
         userImageFile.getDataInBackgroundWithBlock({
             (imageData: NSData!, error: NSError!) -> Void in
-            if !error {
-                let image = UIImage(data:imageData)
+            if error == nil {
+                self.photoImageView.image = UIImage(data:imageData)
+            } else {
+                println(error)
             }
         })
     }
-    
-    
     
     func saveImage() {
         var imageData = UIImagePNGRepresentation(photoImageView.image)
         var imageFile = PFFile(name: "image.png", data: imageData)
         
         var object = PFObject(className: "UserPhoto")
-        object.addObject(imageFile, forKey: "imageFile")
+        object["imageFile"] = imageFile
         object.saveInBackground()
     }
     
@@ -91,15 +60,39 @@ class HomeViewController: UIViewController {
         query.whereKey("uid", equalTo: PFUser.currentUser().username)
         query.findObjectsInBackgroundWithBlock({
             (block: [AnyObject]!, error: NSError!) in
-            if (!error) {
-                println("getting all photos")
+            if error == nil {
+                println("getting \(block.count) photos")
                 for item in block {
-                    println(item)
+                    var row = item as PFObject
+                    self.photosArray.append(row)
                 }
+                self.tableView.reloadData()
             } else {
                 
             }
         })
+    }
+    
+    func startAppWithUser() {
+//        randomFunc()
+        getAllPhotos()
+        tableView.hidden = false
+    }
+    
+    func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+        println("number rows in table \(photosArray.count)")
+        return photosArray.count
+    }
+    
+    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+        var cell = self.tableView.dequeueReusableCellWithIdentifier("cell") as PhotoTableViewCell
+        var row = photosArray[indexPath.row]
+        var title = row["title"] as String
+        cell.mainTitle.text = title
+        return cell
+    }
+    
+    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
         
     }
     
@@ -110,12 +103,12 @@ class HomeViewController: UIViewController {
         
         user.signUpInBackgroundWithBlock({
             (succeed: Bool, error: NSError!) in
-            if (!error) {
-                println("Signed up...")
-                println(PFUser.currentUser())
+            if error == nil {
+                // Sign up is successful. This was a new user.
+                self.startAppWithUser()
             } else {
                 if error.code == 202 {
-                    println("Signing in...")
+                    // Sign up failed. There's already a user with this username.
                     self.signIn()
                 }
             }
@@ -123,11 +116,14 @@ class HomeViewController: UIViewController {
     }
     
     func signIn() {
-        PFUser.logInWithUsernameInBackground(uid, password: uid)
-        println(PFUser.currentUser().username)
-//        self.getAllPhotos()
-//        self.saveImage()
-        self.setImage()
+        PFUser.logInWithUsernameInBackground(uid, password: uid) {
+            (user: PFUser!, error: NSError!) -> Void in
+            if error == nil {
+                self.startAppWithUser()
+            } else {
+                
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {

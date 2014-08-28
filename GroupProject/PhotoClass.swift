@@ -20,10 +20,10 @@ class PhotoClass {
         self.tags = tags
         
         var object = PFObject(className: "PhotoClass")
-        object.addObject(title, forKey: "title")
-        object.addObject(url, forKey: "url")
-        object.addObject(uid, forKey: "uid")
-        object.addObject(tags, forKey: "tags")
+        object["title"] = title
+        object["url"] = url
+        object["uid"] = uid
+        object["tags"] = tags
         object.saveInBackground()
     }
 
