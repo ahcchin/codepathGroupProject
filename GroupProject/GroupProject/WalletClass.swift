@@ -11,7 +11,7 @@ import Foundation
 
 class WalletClass {
     
-    var photosArray = [PFObject]()
+    var cardsArray = [PFObject]()
     
     class var sharedInstance: WalletClass {
         struct Static {
@@ -26,13 +26,13 @@ class WalletClass {
         return Static.instance!
     }
     
-    func getPhotosArray() -> [PFObject] {
-        return self.photosArray
+    func getCardsArray() -> [PFObject] {
+        return self.cardsArray
     }
     
-    func getAllPhotos() {
-        photosArray = []
-        var query = PFQuery(className: "PhotoClass")
+    func getAllCards() {
+        cardsArray = []
+        var query = PFQuery(className: "CardClass")
         query.whereKey("uid", equalTo: PFUser.currentUser().username)
         query.findObjectsInBackgroundWithBlock({
             (block: [AnyObject]!, error: NSError!) in
@@ -40,15 +40,20 @@ class WalletClass {
                 println("getting \(block.count) photos")
                 for row in block {
                     var object = row as PFObject
-                    self.photosArray.append(object)
+                    self.cardsArray.append(object)
                 }
-                println("photosArray has \(self.photosArray.count) photos")
-                println("photosArray2 has \(self.getPhotosArray().count) photos")
-                NSNotificationCenter.defaultCenter().postNotificationName("kUpdatedPhotoArray", object: nil)
+                NSNotificationCenter.defaultCenter().postNotificationName("kUpdatedCardsArray", object: nil)
             } else {
                 
             }
         })
+    }
+    
+    func deleteCard(index: Int) {
+        self.cardsArray.removeAtIndex(index)
+        cardsArray[index].deleteInBackgroundWithBlock { (finished: Bool, error: NSError!) -> Void in
+            NSNotificationCenter.defaultCenter().postNotificationName("kUpdatedCardsArray", object: nil)
+        }
     }
     
 }

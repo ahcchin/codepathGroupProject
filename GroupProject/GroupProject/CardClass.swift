@@ -1,12 +1,15 @@
 //
-//  PhotoClass.swift
+//  CardClass.swift
 //  GroupProject
 //
-//  Created by Yi on 8/20/14.
+//  Created by Yi on 9/4/14.
 //  Copyright (c) 2014 Dropbox. All rights reserved.
 //
 
-class PhotoClass {
+import UIKit
+import Foundation
+
+class CardClass {
     
     var title: String!
     var image: UIImage!
@@ -23,7 +26,7 @@ class PhotoClass {
         var imageFile = PFFile(name: "image.png", data: imageData)
         var wallet = WalletClass.sharedInstance
         
-        var object = PFObject(className: "PhotoClass")
+        var object = PFObject(className: "CardClass")
         object["title"] = title
         object["imageFile"] = imageFile
         object["uid"] = uid
@@ -31,9 +34,9 @@ class PhotoClass {
         object.saveInBackgroundWithBlock {
             (finished: Bool, error: NSError!) -> Void in
             if error == nil {
-                wallet.getAllPhotos()
+                wallet.getAllCards()
             }
         }
     }
-
+   
 }

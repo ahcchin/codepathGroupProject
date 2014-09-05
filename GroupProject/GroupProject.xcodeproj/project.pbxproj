@@ -17,11 +17,11 @@
 		1907FA5E19A5B3310018A167 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1907FA5D19A5B3310018A167 /* Security.framework */; };
 		1907FA6019A5B3360018A167 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1907FA5F19A5B3360018A167 /* StoreKit.framework */; };
 		1907FA6719A5B3A20018A167 /* ParseClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 1907FA6619A5B3A20018A167 /* ParseClass.m */; };
-		1907FA6919A5BF210018A167 /* PhotoClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1907FA6819A5BF210018A167 /* PhotoClass.swift */; };
 		1907FA6D19A5E4220018A167 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1907FA6C19A5E4220018A167 /* Parse.framework */; };
 		1907FA6E19A5E47B0018A167 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1907FA6119A5B33E0018A167 /* SystemConfiguration.framework */; };
 		19662C2119AEDF9E004CD41C /* PhotoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19662C2019AEDF9E004CD41C /* PhotoTableViewCell.swift */; };
 		19662C2319AF0B78004CD41C /* WalletClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19662C2219AF0B78004CD41C /* WalletClass.swift */; };
+		19822E2D19B97F5C00E4C5EE /* CardClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19822E2C19B97F5C00E4C5EE /* CardClass.swift */; };
 		19A2CE7619A18F0B001DD68C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A2CE7519A18F0B001DD68C /* AppDelegate.swift */; };
 		19A2CE7819A18F0B001DD68C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A2CE7719A18F0B001DD68C /* ViewController.swift */; };
 		19A2CE7B19A18F0B001DD68C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19A2CE7919A18F0B001DD68C /* Main.storyboard */; };
@@ -56,10 +56,10 @@
 		1907FA6119A5B33E0018A167 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		1907FA6519A5B3A20018A167 /* GroupProject-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GroupProject-Bridging-Header.h"; sourceTree = "<group>"; };
 		1907FA6619A5B3A20018A167 /* ParseClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ParseClass.m; path = ../ParseClass.m; sourceTree = "<group>"; };
-		1907FA6819A5BF210018A167 /* PhotoClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoClass.swift; path = ../PhotoClass.swift; sourceTree = "<group>"; };
 		1907FA6C19A5E4220018A167 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		19662C2019AEDF9E004CD41C /* PhotoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoTableViewCell.swift; sourceTree = "<group>"; };
 		19662C2219AF0B78004CD41C /* WalletClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WalletClass.swift; sourceTree = "<group>"; };
+		19822E2C19B97F5C00E4C5EE /* CardClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardClass.swift; sourceTree = "<group>"; };
 		19A2CE7019A18F0B001DD68C /* GroupProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GroupProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		19A2CE7419A18F0B001DD68C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		19A2CE7519A18F0B001DD68C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -140,7 +140,7 @@
 				19A2CE9219A1915D001DD68C /* View Controllers */,
 				19A2CE7519A18F0B001DD68C /* AppDelegate.swift */,
 				19A2CE7719A18F0B001DD68C /* ViewController.swift */,
-				1907FA6819A5BF210018A167 /* PhotoClass.swift */,
+				19822E2C19B97F5C00E4C5EE /* CardClass.swift */,
 				19662C2219AF0B78004CD41C /* WalletClass.swift */,
 				1907FA6619A5B3A20018A167 /* ParseClass.m */,
 				19A2CE7919A18F0B001DD68C /* Main.storyboard */,
@@ -290,12 +290,12 @@
 				19A2CE7819A18F0B001DD68C /* ViewController.swift in Sources */,
 				19A2CE9819A193FB001DD68C /* CameraViewController.swift in Sources */,
 				19662C2319AF0B78004CD41C /* WalletClass.swift in Sources */,
-				1907FA6919A5BF210018A167 /* PhotoClass.swift in Sources */,
 				19A2CE9619A193C4001DD68C /* ItemViewController.swift in Sources */,
 				19662C2119AEDF9E004CD41C /* PhotoTableViewCell.swift in Sources */,
 				19A2CE7619A18F0B001DD68C /* AppDelegate.swift in Sources */,
 				19A2CE9A19A1959A001DD68C /* AddFlowViewController.swift in Sources */,
 				19A2CE9419A19169001DD68C /* HomeViewController.swift in Sources */,
+				19822E2D19B97F5C00E4C5EE /* CardClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
