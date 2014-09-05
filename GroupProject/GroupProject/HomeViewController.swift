@@ -25,9 +25,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func createShit() {
-        var photo = CardClass(title: "soething else assdaf 1", image: photoImageView.image, uid: PFUser.currentUser().username, tags: [])
-        var photo1 = CardClass(title: "soething else assdaf 2", image: photoImageView.image, uid: PFUser.currentUser().username, tags: [])
-        var photo2 = CardClass(title: "soething else assdaf 3", image: photoImageView.image, uid: PFUser.currentUser().username, tags: [])
+        var photo = CardClass(title: "soething else assdaf 1", imageArray: [photoImageView.image], uid: PFUser.currentUser().username, tags: [])
     }
     
     func startAppWithUser() {
@@ -50,15 +48,18 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         var title = row["title"]
         cell.mainTitle.text = "\(title)"
         
-        var cellImageFile = row["imageFile"] as PFFile
-        cellImageFile.getDataInBackgroundWithBlock({
-            (imageData: NSData!, error: NSError!) -> Void in
-            if error == nil {
-                cell.photoImageView.image = UIImage(data:imageData)
-            } else {
-                
-            }
-        })
+        var cellImageFileArray = row["imageFileArray"] as [AnyObject]
+        for imageFile in cellImageFileArray {
+            var cellImageFile = imageFile as PFFile
+            cellImageFile.getDataInBackgroundWithBlock({
+                (imageData: NSData!, error: NSError!) -> Void in
+                if error == nil {
+                    cell.photoImageView.image = UIImage(data:imageData)
+                } else {
+                    
+                }
+            })
+        }
         
         return cell
     }
@@ -105,7 +106,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]!) {
         println("Chose photo")
         var chosenImage = info[UIImagePickerControllerOriginalImage] as UIImage
-        var photo = CardClass(title: "soething else assdaf 1", image: chosenImage, uid: PFUser.currentUser().username, tags: [])
+        var photo = CardClass(title: "soething else assdaf 1", imageArray: [chosenImage], uid: PFUser.currentUser().username, tags: [])
         dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -145,6 +146,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         picker.cameraOverlayView = overlay
         presentViewController(picker, animated: true, completion: nil)
+    }
+    
+    @IBAction func onDeleteCardButton(sender: AnyObject) {
+        var wallet = WalletClass.sharedInstance
+        wallet.deleteCard(0)
     }
     
     func takePhoto() {

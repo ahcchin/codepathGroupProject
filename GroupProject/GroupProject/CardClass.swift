@@ -12,23 +12,25 @@ import Foundation
 class CardClass {
     
     var title: String!
-    var image: UIImage!
+    var imageArray: [UIImage]
     var uid: String!
     var tags = [String]()
-    
-    init(title: String, image: UIImage, uid: String, tags: [String]) {
+
+    init(title: String, imageArray: [UIImage], uid: String, tags: [String]) {
         self.title = title
-        self.image = image
+        self.imageArray = imageArray
         self.uid = uid
         self.tags = tags
         
-        var imageData = UIImagePNGRepresentation(image)
-        var imageFile = PFFile(name: "image.png", data: imageData)
-        var wallet = WalletClass.sharedInstance
-        
         var object = PFObject(className: "CardClass")
+        for image in imageArray {
+            var imageData = UIImageJPEGRepresentation(image, 1)
+            var imageFile = PFFile(name: "image.png", data: imageData)
+            object.addObject(imageFile, forKey: "imageFileArray")
+        }
+        
+        var wallet = WalletClass.sharedInstance
         object["title"] = title
-        object["imageFile"] = imageFile
         object["uid"] = uid
         object["tags"] = tags
         object.saveInBackgroundWithBlock {
