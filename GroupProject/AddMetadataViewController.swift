@@ -20,6 +20,8 @@ class AddMetadataViewController: ViewController, UICollectionViewDelegateFlowLay
     var cardImageArray: [UIImage]!
     var selectedTagIDs: [String]! = [String]()
     
+    var tagArray = [String]()
+    
 //    var textLabel: [UITextLabel]!
     
     
@@ -84,11 +86,20 @@ class AddMetadataViewController: ViewController, UICollectionViewDelegateFlowLay
 
 
         } else {
+            
             var cell = collectionView.dequeueReusableCellWithReuseIdentifier("tagCell", forIndexPath: indexPath) as TagCollectionViewCell
             
             var row = wallet.getTagsArray()[indexPath.row]
             cell.tagLabel.text = row["tag"] as String
-
+            
+            if (row["selected"] as Bool == true) {
+                cell.backgroundColor = UIColor.grayColor()
+                cell.tagLabel.textColor = UIColor.whiteColor()
+            } else {
+                cell.backgroundColor = nil
+                cell.tagLabel.textColor = UIColor.blackColor()
+            }
+            
             println("tag collection view dequeue")
             return cell
 
@@ -105,11 +116,17 @@ class AddMetadataViewController: ViewController, UICollectionViewDelegateFlowLay
             var tags = wallet.getTagsArray()
             var tag = tags[indexPath.row] as PFObject
             var tagId = tag.objectId
+            
             if find(selectedTagIDs, tagId) == nil {
                 selectedTagIDs.append(tagId)
+                tag["selected"] = true
             } else {
                 selectedTagIDs.removeAtIndex(find(selectedTagIDs, tagId)!)
+                tag["selected"] = false
             }
+            
+            collectionView.reloadData()
+            
             println(tagId)
             println(selectedTagIDs)
         }

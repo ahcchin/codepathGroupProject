@@ -63,14 +63,35 @@ class WalletClass {
                 println("getting \(block.count) tags")
                 for row in block {
                     var object = row as PFObject
+                    object["selected"] = false
                     self.tagsArray.append(object)
-                    println(object)
                 }
+                
+                self.getGlobalTags()
 //                NSNotificationCenter.defaultCenter().postNotificationName("kUpdatedCardsArray", object: nil)
             } else {
                 
             }
         })
+    }
+    
+    func getGlobalTags() {
+        var query = PFQuery(className: "GlobalTagClass")
+        query.orderByAscending("tag")
+        query.findObjectsInBackgroundWithBlock({
+            (block: [AnyObject]!, error: NSError!) in
+            if error == nil {
+                println("getting \(block.count) tags")
+                for row in block {
+                    var object = row as PFObject
+                    object["selected"] = false
+                    self.tagsArray.append(object)
+                }
+            } else {
+                
+            }
+        })
+        
     }
     
     func getTagsArray() -> [PFObject] {

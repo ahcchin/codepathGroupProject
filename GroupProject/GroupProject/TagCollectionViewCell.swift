@@ -12,6 +12,8 @@ class TagCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var tagButton: UIButton!
     @IBOutlet weak var tagLabel: UILabel!
+    
+    var selectedTag: Bool! = false
 
     
 }

@@ -27,8 +27,48 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func startAppWithUser() {
         var wallet = WalletClass.sharedInstance
+        
+//        var tag = wallet.
+        
+//        var object = PFObject(className: "GlobalTagClass")
+//        object["tag"] = "Cards"
+//        object.saveInBackgroundWithBlock {
+//            (finished: Bool, error: NSError!) -> Void in
+//            if error == nil {
+//                
+//            }
+//        }
+//        var object2 = PFObject(className: "GlobalTagClass")
+//        object2["tag"] = "Memberships"
+//        object2.saveInBackgroundWithBlock {
+//            (finished: Bool, error: NSError!) -> Void in
+//            if error == nil {
+//                
+//            }
+//        }
+//        var object3 = PFObject(className: "GlobalTagClass")
+//        object3["tag"] = "Coupons"
+//        object3.saveInBackgroundWithBlock {
+//            (finished: Bool, error: NSError!) -> Void in
+//            if error == nil {
+//                
+//            }
+//        }
+//        var object4 = PFObject(className: "GlobalTagClass")
+//        object4["tag"] = "Insurance"
+//        object4.saveInBackgroundWithBlock {
+//            (finished: Bool, error: NSError!) -> Void in
+//            if error == nil {
+//                
+//            }
+//        }
+        
+        
         wallet.getAllCards()
         wallet.getTags()
+
+        wallet.getGlobalTags()
+        
         if wallet.getCardsArray().count > 0 {
             tableView.hidden = false
         }
