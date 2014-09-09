@@ -93,7 +93,7 @@ class AddMetadataViewController: ViewController, UICollectionViewDelegateFlowLay
         var newCard: CardClass!
         newCard.title = titleTextField.text
         newCard.imageArray = cardImageArray
-        newCard.uid = PFUser.currentUser().username
+        newCard.uid = PFUser.currentUser()
         newCard.tags = tags
         
     }
