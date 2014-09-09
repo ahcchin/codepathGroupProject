@@ -12,17 +12,28 @@ import Foundation
 class CardClass {
     
     var title: String!
+<<<<<<< HEAD
     var imageArray: [UIImage]!
     var uid: PFUser!
     var tags: [String]!
     var isFavorite: Bool!
 
     init(title: String, imageArray: [UIImage], uid: PFUser, tags: [String], isFavorite: Bool) {
+=======
+    var imageArray: [UIImage]
+    var uid: String!
+    var tags = [String]()
+
+    init(title: String, imageArray: [UIImage], uid: String, tags: [String]) {
+>>>>>>> FETCH_HEAD
         self.title = title
         self.imageArray = imageArray
         self.uid = uid
         self.tags = tags
+<<<<<<< HEAD
         self.isFavorite = isFavorite
+=======
+>>>>>>> FETCH_HEAD
         
         var object = PFObject(className: "CardClass")
         for image in imageArray {
@@ -35,6 +46,7 @@ class CardClass {
         object["title"] = title
         object["uid"] = uid
         object["tags"] = tags
+<<<<<<< HEAD
         object["isFavorite"] = isFavorite
         
         wallet.cardsArray.insert(object, atIndex: 0)
@@ -47,6 +59,12 @@ class CardClass {
                 println("finished creating card")
             } else {
                 
+=======
+        object.saveInBackgroundWithBlock {
+            (finished: Bool, error: NSError!) -> Void in
+            if error == nil {
+                wallet.getAllCards()
+>>>>>>> FETCH_HEAD
             }
         }
     }

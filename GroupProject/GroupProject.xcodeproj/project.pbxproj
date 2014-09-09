@@ -22,8 +22,11 @@
 		19662C2119AEDF9E004CD41C /* PhotoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19662C2019AEDF9E004CD41C /* PhotoTableViewCell.swift */; };
 		19662C2319AF0B78004CD41C /* WalletClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19662C2219AF0B78004CD41C /* WalletClass.swift */; };
 		19822E2D19B97F5C00E4C5EE /* CardClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19822E2C19B97F5C00E4C5EE /* CardClass.swift */; };
+<<<<<<< HEAD
 		19822E2F19B9950200E4C5EE /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19822E2E19B9950200E4C5EE /* CardViewController.swift */; };
 		19822E3119B999A000E4C5EE /* ZoomTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19822E3019B999A000E4C5EE /* ZoomTransition.swift */; };
+=======
+>>>>>>> FETCH_HEAD
 		19A2CE7619A18F0B001DD68C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A2CE7519A18F0B001DD68C /* AppDelegate.swift */; };
 		19A2CE7819A18F0B001DD68C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A2CE7719A18F0B001DD68C /* ViewController.swift */; };
 		19A2CE7B19A18F0B001DD68C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19A2CE7919A18F0B001DD68C /* Main.storyboard */; };
@@ -61,8 +64,11 @@
 		19662C2019AEDF9E004CD41C /* PhotoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoTableViewCell.swift; sourceTree = "<group>"; };
 		19662C2219AF0B78004CD41C /* WalletClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WalletClass.swift; sourceTree = "<group>"; };
 		19822E2C19B97F5C00E4C5EE /* CardClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardClass.swift; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		19822E2E19B9950200E4C5EE /* CardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
 		19822E3019B999A000E4C5EE /* ZoomTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomTransition.swift; sourceTree = "<group>"; };
+=======
+>>>>>>> FETCH_HEAD
 		19A2CE7019A18F0B001DD68C /* GroupProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GroupProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		19A2CE7419A18F0B001DD68C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		19A2CE7519A18F0B001DD68C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -293,12 +299,19 @@
 				19A2CE7819A18F0B001DD68C /* ViewController.swift in Sources */,
 				19A2CE9819A193FB001DD68C /* CameraViewController.swift in Sources */,
 				19662C2319AF0B78004CD41C /* WalletClass.swift in Sources */,
+<<<<<<< HEAD
+=======
+				19A2CE9619A193C4001DD68C /* ItemViewController.swift in Sources */,
+>>>>>>> FETCH_HEAD
 				19662C2119AEDF9E004CD41C /* PhotoTableViewCell.swift in Sources */,
 				19A2CE7619A18F0B001DD68C /* AppDelegate.swift in Sources */,
 				19A2CE9A19A1959A001DD68C /* AddFlowViewController.swift in Sources */,
 				19A2CE9419A19169001DD68C /* HomeViewController.swift in Sources */,
+<<<<<<< HEAD
 				19822E2F19B9950200E4C5EE /* CardViewController.swift in Sources */,
 				19822E3119B999A000E4C5EE /* ZoomTransition.swift in Sources */,
+=======
+>>>>>>> FETCH_HEAD
 				19822E2D19B97F5C00E4C5EE /* CardClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

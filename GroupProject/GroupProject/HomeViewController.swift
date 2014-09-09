@@ -14,8 +14,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var tableView: UITableView!
     var picker: UIImagePickerController!
+<<<<<<< HEAD
     var selectedCard: Int!
     var zoomTransition: ZoomTransition!
+=======
+>>>>>>> FETCH_HEAD
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +30,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func createShit() {
+<<<<<<< HEAD
         var photo = CardClass(title: "soething else assdaf 1", imageArray: [photoImageView.image], uid: PFUser.currentUser(), tags: [], isFavorite: false)
+=======
+        var photo = CardClass(title: "soething else assdaf 1", imageArray: [photoImageView.image], uid: PFUser.currentUser().username, tags: [])
+>>>>>>> FETCH_HEAD
     }
     
     func startAppWithUser() {
@@ -47,8 +54,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         var cell = tableView.dequeueReusableCellWithIdentifier("cell") as PhotoTableViewCell
         var wallet = WalletClass.sharedInstance
         var row = wallet.getCardsArray()[indexPath.row]
+<<<<<<< HEAD
         var title = row["title"] as String
         cell.mainTitle.text = title
+=======
+        var title = row["title"]
+        cell.mainTitle.text = "\(title)"
+>>>>>>> FETCH_HEAD
         
         var cellImageFileArray = row["imageFileArray"] as [AnyObject]
         for imageFile in cellImageFileArray {
@@ -67,8 +79,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+<<<<<<< HEAD
         selectedCard = indexPath.row
         performSegueWithIdentifier("viewCardSegue", sender: self)
+=======
+        
+>>>>>>> FETCH_HEAD
     }
     
     func updateTableView(notification: NSNotification!) {
@@ -109,7 +125,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]!) {
         println("Chose photo")
         var chosenImage = info[UIImagePickerControllerOriginalImage] as UIImage
+<<<<<<< HEAD
         var photo = CardClass(title: "soething else assdaf 1", imageArray: [chosenImage], uid: PFUser.currentUser(), tags: [], isFavorite: false)
+=======
+        var photo = CardClass(title: "soething else assdaf 1", imageArray: [chosenImage], uid: PFUser.currentUser().username, tags: [])
+>>>>>>> FETCH_HEAD
         dismissViewControllerAnimated(true, completion: nil)
     }
     
