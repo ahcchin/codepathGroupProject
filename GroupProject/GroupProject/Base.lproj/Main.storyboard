@@ -65,18 +65,6 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Digital Wallet" id="fDc-k6-DM2">
-                        <barButtonItem key="leftBarButtonItem" style="plain" id="8aM-AW-NMC">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="eKy-4g-Y9L">
-                                <rect key="frame" x="-23" y="-15" width="71" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Refresh">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="refreshButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="2fL-Cj-deL"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="FWB-8m-clD">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="p2r-PB-NYz">
                                 <rect key="frame" x="262" y="11" width="14" height="22"/>
@@ -93,10 +81,7 @@
                     <connections>
                         <outlet property="photoImageView" destination="D2C-HQ-a9o" id="ouL-s5-xPn"/>
                         <outlet property="tableView" destination="j4x-zD-dYW" id="9ot-YL-kP0"/>
-<<<<<<< HEAD
                         <segue destination="eFL-1J-mrP" kind="modal" identifier="viewCardSegue" id="9x0-LR-CbL"/>
-=======
->>>>>>> FETCH_HEAD
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
