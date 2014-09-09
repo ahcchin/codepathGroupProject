@@ -11,6 +11,7 @@ import UIKit
 class CardViewController: UIViewController {
 
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var navBar: UINavigationBar!
     var card: PFObject!
     
     override func viewDidLoad() {
@@ -28,6 +29,7 @@ class CardViewController: UIViewController {
                 }
             })
         }
+        navBar.topItem.title = card["title"] as String
         
         // Do any additional setup after loading the view.
     }
@@ -41,6 +43,9 @@ class CardViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func onTap(sender: AnyObject) {
+        navBar.hidden = !navBar.hidden
+    }
 
     /*
     // MARK: - Navigation
