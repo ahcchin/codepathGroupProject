@@ -12,6 +12,7 @@ import Foundation
 class WalletClass {
     
     var cardsArray = [PFObject]()
+    var tagsArray = [PFObject]()
     
     class var sharedInstance: WalletClass {
         struct Static {
@@ -48,6 +49,33 @@ class WalletClass {
                 
             }
         })
+    }
+    
+    func getTags() {
+        //resets the tag array to empty
+        tagsArray = []
+        var query = PFQuery(className: "TagClass")
+        query.whereKey("uid", equalTo: PFUser.currentUser())
+        query.orderByDescending("createdAt")
+        query.findObjectsInBackgroundWithBlock({
+            (block: [AnyObject]!, error: NSError!) in
+            if error == nil {
+                println("getting \(block.count) tags")
+                for row in block {
+                    var object = row as PFObject
+                    self.tagsArray.append(object)
+                    println(object)
+                }
+//                NSNotificationCenter.defaultCenter().postNotificationName("kUpdatedCardsArray", object: nil)
+            } else {
+                
+            }
+        })
+    }
+    
+    func getTagsArray() -> [PFObject] {
+    
+        return self.tagsArray
     }
     
     func deleteCard(index: Int) {

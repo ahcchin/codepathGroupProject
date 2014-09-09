@@ -32,8 +32,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func startAppWithUser() {
 //        createShit()
+//        var tag1 = TagClass(uid: PFUser.currentUser(), tag: "Credit/Debit Card")
+//        var tag2 = TagClass(uid: PFUser.currentUser(), tag: "Insurance")
+//        var tag3 = TagClass(uid: PFUser.currentUser(), tag: "Business Cards")
+//        var tag4 = TagClass(uid: PFUser.currentUser(), tag: "Membership")
+//        var tag5 = TagClass(uid: PFUser.currentUser(), tag: "Coupon")
+        
         var wallet = WalletClass.sharedInstance
         wallet.getAllCards()
+        wallet.getTags()
         tableView.hidden = false
         tableView.contentInset.top = navigationController.navigationBar.frame.height + UIApplication.sharedApplication().statusBarFrame.size.height
     }
@@ -179,19 +186,19 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        
-        var destinationViewController = segue.destinationViewController as CardViewController
-        var wallet = WalletClass.sharedInstance
-        destinationViewController.card = wallet.getCardsArray()[selectedCard]
-        
-        zoomTransition = ZoomTransition()
-        zoomTransition.duration = 0.3
-        
-        destinationViewController.modalPresentationStyle = UIModalPresentationStyle.Custom
-        destinationViewController.transitioningDelegate = zoomTransition
-    }
+//    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+//        // Get the new view controller using segue.destinationViewController.
+//        // Pass the selected object to the new view controller.
+//        
+//        var destinationViewController = segue.destinationViewController as CardViewController
+//        var wallet = WalletClass.sharedInstance
+//        destinationViewController.card = wallet.getCardsArray()[selectedCard]
+//        
+//        zoomTransition = ZoomTransition()
+//        zoomTransition.duration = 0.3
+//        
+//        destinationViewController.modalPresentationStyle = UIModalPresentationStyle.Custom
+//        destinationViewController.transitioningDelegate = zoomTransition
+//    }
 
 }

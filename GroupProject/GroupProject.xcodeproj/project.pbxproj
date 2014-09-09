@@ -33,6 +33,7 @@
 		19A2CE9819A193FB001DD68C /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A2CE9719A193FB001DD68C /* CameraViewController.swift */; };
 		19A2CE9A19A1959A001DD68C /* AddFlowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A2CE9919A1959A001DD68C /* AddFlowViewController.swift */; };
 		8851953719BEC5E700866E34 /* TagClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8851953619BEC5E700866E34 /* TagClass.swift */; };
+		8851953919BED8B700866E34 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8851953819BED8B700866E34 /* TagCollectionViewCell.swift */; };
 		88A90DCE19B995D5006A04EB /* AddMetadataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A90DCD19B995D5006A04EB /* AddMetadataViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -78,6 +79,7 @@
 		19A2CE9719A193FB001DD68C /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		19A2CE9919A1959A001DD68C /* AddFlowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddFlowViewController.swift; sourceTree = "<group>"; };
 		8851953619BEC5E700866E34 /* TagClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagClass.swift; sourceTree = "<group>"; };
+		8851953819BED8B700866E34 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
 		88A90DCD19B995D5006A04EB /* AddMetadataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddMetadataViewController.swift; path = ../AddMetadataViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -153,6 +155,7 @@
 				1907FA6619A5B3A20018A167 /* ParseClass.m */,
 				19A2CE7919A18F0B001DD68C /* Main.storyboard */,
 				19662C2019AEDF9E004CD41C /* PhotoTableViewCell.swift */,
+				8851953819BED8B700866E34 /* TagCollectionViewCell.swift */,
 				19A2CE7C19A18F0B001DD68C /* Images.xcassets */,
 				19A2CE7319A18F0B001DD68C /* Supporting Files */,
 			);
@@ -298,6 +301,7 @@
 				88A90DCE19B995D5006A04EB /* AddMetadataViewController.swift in Sources */,
 				1907FA6719A5B3A20018A167 /* ParseClass.m in Sources */,
 				19A2CE7819A18F0B001DD68C /* ViewController.swift in Sources */,
+				8851953919BED8B700866E34 /* TagCollectionViewCell.swift in Sources */,
 				19A2CE9819A193FB001DD68C /* CameraViewController.swift in Sources */,
 				19662C2319AF0B78004CD41C /* WalletClass.swift in Sources */,
 				19662C2119AEDF9E004CD41C /* PhotoTableViewCell.swift in Sources */,

@@ -12,10 +12,10 @@ import Foundation
 
 class TagClass: NSObject {
    
-    var uid: String!
+    var uid: PFUser!
     var tag: String!
     
-    init(uid: String, tag: String) {
+    init(uid: PFUser, tag: String) {
         
         self.uid = uid
         self.tag = tag

@@ -18,7 +18,7 @@ class AddMetadataViewController: ViewController, UICollectionViewDelegateFlowLay
     @IBOutlet weak var titleTextField: UITextField!
     
     var cardImageArray: [UIImage]!
-    var tags: [String]!
+    var selectedTagIDs: [String]! = [String]()
     
 //    var textLabel: [UITextLabel]!
     
@@ -31,8 +31,7 @@ class AddMetadataViewController: ViewController, UICollectionViewDelegateFlowLay
         imageCollectionView!.dataSource = self
         imageCollectionView!.delegate = self
         
-
-
+        cardImageArray = [UIImage(named: "camera")]
         
 //        textLabel = []
         
@@ -60,42 +59,64 @@ class AddMetadataViewController: ViewController, UICollectionViewDelegateFlowLay
     }
     
     func collectionView(collectionView: UICollectionView!, numberOfItemsInSection section: Int) -> Int {
-        
+        var wallet = WalletClass.sharedInstance
+
         if (collectionView == imageCollectionView) {
             println("image collection view")
+            
             return 3
         } else {
             println("tag collection view")
-            return 5
+            return wallet.getTagsArray().count
         }
         
     }
     
     // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
     func collectionView(collectionView: UICollectionView!, cellForItemAtIndexPath indexPath: NSIndexPath!) -> UICollectionViewCell! {
+        
+        var wallet = WalletClass.sharedInstance
         if (collectionView == imageCollectionView) {
-        var cell = collectionView.dequeueReusableCellWithReuseIdentifier("imageCell", forIndexPath: indexPath) as UICollectionViewCell
+            var cell = collectionView.dequeueReusableCellWithReuseIdentifier("imageCell", forIndexPath: indexPath) as UICollectionViewCell
             //        cell.backgroundColor = UIColor.orangeColor()
             println("image collection view dequeue")
             return cell
 
 
         } else {
-            var cell = collectionView.dequeueReusableCellWithReuseIdentifier("tagCell", forIndexPath: indexPath) as UICollectionViewCell
-            //        cell.backgroundColor = UIColor.orangeColor()
+            var cell = collectionView.dequeueReusableCellWithReuseIdentifier("tagCell", forIndexPath: indexPath) as TagCollectionViewCell
+            
+            var row = wallet.getTagsArray()[indexPath.row]
+            cell.tagLabel.text = row["tag"] as String
+
             println("tag collection view dequeue")
             return cell
 
         }
     }
     
-    @IBAction func onSaveButton(sender: AnyObject) {
-        var newCard: CardClass!
-        newCard.title = titleTextField.text
-        newCard.imageArray = cardImageArray
-        newCard.uid = PFUser.currentUser()
-        newCard.tags = tags
+    func collectionView(collectionView: UICollectionView!, didSelectItemAtIndexPath indexPath: NSIndexPath!) {
         
+        var wallet = WalletClass.sharedInstance
+        println("selectedItem")
+        if (collectionView == imageCollectionView) {
+            
+        } else {
+            var tags = wallet.getTagsArray()
+            var tag = tags[indexPath.row] as PFObject
+            var tagId = tag.objectId
+            if find(selectedTagIDs, tagId) == nil {
+                selectedTagIDs.append(tagId)
+            } else {
+                selectedTagIDs.removeAtIndex(find(selectedTagIDs, tagId)!)
+            }
+            println(tagId)
+            println(selectedTagIDs)
+        }
+    }
+    
+    @IBAction func onSaveButton(sender: AnyObject) {
+        var photo = CardClass(title: titleTextField.text, imageArray: cardImageArray, uid: PFUser.currentUser(), tags: selectedTagIDs, isFavorite: false)
     }
     
     @IBAction func onCancelButton(sender: AnyObject) {
