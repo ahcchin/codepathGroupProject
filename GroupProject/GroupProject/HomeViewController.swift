@@ -28,6 +28,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func startAppWithUser() {
         var wallet = WalletClass.sharedInstance
         wallet.getAllCards()
+        wallet.getTags()
         if wallet.getCardsArray().count > 0 {
             tableView.hidden = false
         }

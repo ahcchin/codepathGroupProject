@@ -52,7 +52,6 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Digital Wallet" id="fDc-k6-DM2">
-<<<<<<< HEAD
                         <barButtonItem key="leftBarButtonItem" style="plain" id="FcV-P1-0eM">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="WXG-xr-OsD">
                                 <rect key="frame" x="-23" y="-15" width="71" height="30"/>
@@ -77,9 +76,6 @@
                                 </connections>
                             </button>
                         </barButtonItem>
-=======
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="FWB-8m-clD"/>
->>>>>>> FETCH_HEAD
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="j4x-zD-dYW" id="9ot-YL-kP0"/>
