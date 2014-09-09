@@ -14,6 +14,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var tableView: UITableView!
     var picker: UIImagePickerController!
+    var selectedCard: Int!
+    var zoomTransition: ZoomTransition!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +27,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func createShit() {
-        var photo = CardClass(title: "soething else assdaf 1", imageArray: [photoImageView.image], uid: PFUser.currentUser().username, tags: [])
+        var photo = CardClass(title: "soething else assdaf 1", imageArray: [photoImageView.image], uid: PFUser.currentUser(), tags: [], isFavorite: false)
     }
     
     func startAppWithUser() {
@@ -45,8 +47,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         var cell = tableView.dequeueReusableCellWithIdentifier("cell") as PhotoTableViewCell
         var wallet = WalletClass.sharedInstance
         var row = wallet.getCardsArray()[indexPath.row]
-        var title = row["title"]
-        cell.mainTitle.text = "\(title)"
+        var title = row["title"] as String
+        cell.mainTitle.text = title
         
         var cellImageFileArray = row["imageFileArray"] as [AnyObject]
         for imageFile in cellImageFileArray {
@@ -65,7 +67,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
-        
+        selectedCard = indexPath.row
+        performSegueWithIdentifier("viewCardSegue", sender: self)
     }
     
     func updateTableView(notification: NSNotification!) {
@@ -106,7 +109,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]!) {
         println("Chose photo")
         var chosenImage = info[UIImagePickerControllerOriginalImage] as UIImage
-        var photo = CardClass(title: "soething else assdaf 1", imageArray: [chosenImage], uid: PFUser.currentUser().username, tags: [])
+        var photo = CardClass(title: "soething else assdaf 1", imageArray: [chosenImage], uid: PFUser.currentUser(), tags: [], isFavorite: false)
         dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -173,15 +176,22 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        var destinationViewController = segue.destinationViewController as CardViewController
+        var wallet = WalletClass.sharedInstance
+        destinationViewController.card = wallet.getCardsArray()[selectedCard]
+        
+        zoomTransition = ZoomTransition()
+        zoomTransition.duration = 0.3
+        
+        destinationViewController.modalPresentationStyle = UIModalPresentationStyle.Custom
+        destinationViewController.transitioningDelegate = zoomTransition
     }
-    */
 
 }

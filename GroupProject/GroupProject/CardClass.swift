@@ -12,15 +12,17 @@ import Foundation
 class CardClass {
     
     var title: String!
-    var imageArray: [UIImage]
-    var uid: String!
-    var tags = [String]()
+    var imageArray: [UIImage]!
+    var uid: PFUser!
+    var tags: [String]!
+    var isFavorite: Bool!
 
-    init(title: String, imageArray: [UIImage], uid: String, tags: [String]) {
+    init(title: String, imageArray: [UIImage], uid: PFUser, tags: [String], isFavorite: Bool) {
         self.title = title
         self.imageArray = imageArray
         self.uid = uid
         self.tags = tags
+        self.isFavorite = isFavorite
         
         var object = PFObject(className: "CardClass")
         for image in imageArray {
@@ -33,10 +35,18 @@ class CardClass {
         object["title"] = title
         object["uid"] = uid
         object["tags"] = tags
+        object["isFavorite"] = isFavorite
+        
+        wallet.cardsArray.insert(object, atIndex: 0)
+        NSNotificationCenter.defaultCenter().postNotificationName("kUpdatedCardsArray", object: nil)
+        
         object.saveInBackgroundWithBlock {
             (finished: Bool, error: NSError!) -> Void in
             if error == nil {
-                wallet.getAllCards()
+//                wallet.getAllCards()
+                println("finished creating card")
+            } else {
+                
             }
         }
     }
