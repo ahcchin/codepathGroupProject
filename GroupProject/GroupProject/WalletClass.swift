@@ -33,7 +33,8 @@ class WalletClass {
     func getAllCards() {
         cardsArray = []
         var query = PFQuery(className: "CardClass")
-        query.whereKey("uid", equalTo: PFUser.currentUser().username)
+        query.whereKey("uid", equalTo: PFUser.currentUser())
+        query.orderByDescending("createdAt")
         query.findObjectsInBackgroundWithBlock({
             (block: [AnyObject]!, error: NSError!) in
             if error == nil {
@@ -51,8 +52,13 @@ class WalletClass {
     
     func deleteCard(index: Int) {
         self.cardsArray.removeAtIndex(index)
+        NSNotificationCenter.defaultCenter().postNotificationName("kUpdatedCardsArray", object: nil)
         cardsArray[index].deleteInBackgroundWithBlock { (finished: Bool, error: NSError!) -> Void in
-            NSNotificationCenter.defaultCenter().postNotificationName("kUpdatedCardsArray", object: nil)
+            if error == nil {
+                
+            } else {
+                
+            }
         }
     }
     
