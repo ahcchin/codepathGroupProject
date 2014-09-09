@@ -11,7 +11,6 @@ import UIKit
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     var uid: String!
-    @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var tableView: UITableView!
     var picker: UIImagePickerController!
     var selectedCard: Int!
@@ -26,20 +25,20 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         signUp()
     }
     
-    func createShit() {
-        var photo = CardClass(title: "soething else assdaf 1", imageArray: [photoImageView.image], uid: PFUser.currentUser(), tags: [], isFavorite: false)
-    }
-    
     func startAppWithUser() {
-//        createShit()
         var wallet = WalletClass.sharedInstance
         wallet.getAllCards()
-        tableView.hidden = false
-        tableView.contentInset.top = navigationController.navigationBar.frame.height + UIApplication.sharedApplication().statusBarFrame.size.height
+        if wallet.getCardsArray().count > 0 {
+            tableView.hidden = false
+        }
+//        tableView.contentInset.top = navigationController.navigationBar.frame.height + UIApplication.sharedApplication().statusBarFrame.size.height
     }
     
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
         var wallet = WalletClass.sharedInstance
+        if wallet.getCardsArray().count > 0 {
+            tableView.hidden = false
+        }
         return wallet.getCardsArray().count
     }
     
