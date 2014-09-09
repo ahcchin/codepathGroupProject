@@ -64,7 +64,6 @@ class WalletClass {
                 for row in block {
                     var object = row as PFObject
                     self.tagsArray.append(object)
-                    println(object)
                 }
 //                NSNotificationCenter.defaultCenter().postNotificationName("kUpdatedCardsArray", object: nil)
             } else {
