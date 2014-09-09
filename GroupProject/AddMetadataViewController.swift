@@ -33,26 +33,12 @@ class AddMetadataViewController: ViewController, UICollectionViewDelegateFlowLay
         imageCollectionView!.dataSource = self
         imageCollectionView!.delegate = self
         
-        cardImageArray = [UIImage(named: "camera")]
-        
-//        textLabel = []
-        
-//        imageCollectionViewFlowLayout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
-//        imageCollectionViewFlowLayout.itemSize = CGSize(width: 90, height: 120)
-//        imageCollectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: imageCollectionViewFlowLayout)
-//        imageCollectionView!.dataSource = self
-//        imageCollectionView!.delegate = self
-//        imageCollectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "imageCell")
-//        imageCollectionView!.backgroundColor = UIColor.whiteColor()
-//        s elf.view.addSubview(imageCollectionView!)
-        
         // Do any additional setup after loading the view.
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         titleTextField.becomeFirstResponder()
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -62,13 +48,9 @@ class AddMetadataViewController: ViewController, UICollectionViewDelegateFlowLay
     
     func collectionView(collectionView: UICollectionView!, numberOfItemsInSection section: Int) -> Int {
         var wallet = WalletClass.sharedInstance
-
         if (collectionView == imageCollectionView) {
-            println("image collection view")
-            
             return 3
         } else {
-            println("tag collection view")
             return wallet.getTagsArray().count
         }
         
@@ -76,19 +58,12 @@ class AddMetadataViewController: ViewController, UICollectionViewDelegateFlowLay
     
     // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
     func collectionView(collectionView: UICollectionView!, cellForItemAtIndexPath indexPath: NSIndexPath!) -> UICollectionViewCell! {
-        
         var wallet = WalletClass.sharedInstance
         if (collectionView == imageCollectionView) {
             var cell = collectionView.dequeueReusableCellWithReuseIdentifier("imageCell", forIndexPath: indexPath) as UICollectionViewCell
-            //        cell.backgroundColor = UIColor.orangeColor()
-            println("image collection view dequeue")
             return cell
-
-
         } else {
-            
             var cell = collectionView.dequeueReusableCellWithReuseIdentifier("tagCell", forIndexPath: indexPath) as TagCollectionViewCell
-            
             var row = wallet.getTagsArray()[indexPath.row]
             cell.tagLabel.text = row["tag"] as String
             
@@ -99,17 +74,12 @@ class AddMetadataViewController: ViewController, UICollectionViewDelegateFlowLay
                 cell.backgroundColor = nil
                 cell.tagLabel.textColor = UIColor.blackColor()
             }
-            
-            println("tag collection view dequeue")
             return cell
-
         }
     }
     
     func collectionView(collectionView: UICollectionView!, didSelectItemAtIndexPath indexPath: NSIndexPath!) {
-        
         var wallet = WalletClass.sharedInstance
-        println("selectedItem")
         if (collectionView == imageCollectionView) {
             
         } else {
@@ -124,7 +94,6 @@ class AddMetadataViewController: ViewController, UICollectionViewDelegateFlowLay
                 selectedTagIDs.removeAtIndex(find(selectedTagIDs, tagId)!)
                 tag["selected"] = false
             }
-            
             collectionView.reloadData()
             
             println(tagId)
@@ -134,12 +103,11 @@ class AddMetadataViewController: ViewController, UICollectionViewDelegateFlowLay
     
     @IBAction func onSaveButton(sender: AnyObject) {
         var photo = CardClass(title: titleTextField.text, imageArray: cardImageArray, uid: PFUser.currentUser(), tags: selectedTagIDs, isFavorite: false)
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func onCancelButton(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: { () -> Void in
-            //go back to camera view
-        })
+        dismissViewControllerAnimated(true, completion: nil)
     }
    
     
