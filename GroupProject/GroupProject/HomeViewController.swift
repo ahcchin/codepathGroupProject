@@ -8,61 +8,103 @@
 
 import UIKit
 
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
 
     var uid: String!
     @IBOutlet weak var tableView: UITableView!
     var selectedCard: Int!
     var zoomTransition: ZoomTransition!
     
+    @IBOutlet weak var tagCollectionView: UICollectionView!
+    @IBOutlet weak var tagCollectionViewFlowLayout: UICollectionViewFlowLayout!
+    
+    var selectedTagIDs: [String]! = [String]()
+    var filteredCardArray: [PFObject]! = [PFObject]()
+
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        tagCollectionView.delegate = self
+        tagCollectionView.dataSource = self
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTableView:" , name: "kUpdatedCardsArray", object: nil)
         uid = UIDevice.currentDevice().identifierForVendor.UUIDString
         tableView.hidden = true
         signUp()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTagCollectionView:" , name: "kUpdatedTagsArray", object: nil)
+        var wallet = WalletClass.sharedInstance
+        for row in wallet.getTagsArray() {
+            row["selected"] = false
+        }
+    }
+
+    func collectionView(collectionView: UICollectionView!, numberOfItemsInSection section: Int) -> Int {
+        var wallet = WalletClass.sharedInstance
+        println("wallet tag array count \(wallet.getTagsArray().count)")
+        
+        return wallet.getTagsArray().count
+    }
+    
+    // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
+    func collectionView(collectionView: UICollectionView!, cellForItemAtIndexPath indexPath: NSIndexPath!) -> UICollectionViewCell! {
+        var wallet = WalletClass.sharedInstance
+        var cell = collectionView.dequeueReusableCellWithReuseIdentifier("tagCell", forIndexPath: indexPath) as TagCollectionViewCell
+        var row = wallet.getTagsArray()[indexPath.row]
+        cell.tagLabel.text = row["tag"] as String
+        cell.layer.cornerRadius = 4.0
+        
+        if (row["selected"] as Bool == true) {
+            cell.backgroundColor =  UIColor.grayColor()
+            cell.tagLabel.textColor = UIColor.whiteColor()
+        } else {
+            cell.backgroundColor = nil
+            cell.tagLabel.textColor = UIColor.grayColor()
+            cell.layer.borderColor = UIColor.grayColor().CGColor
+            cell.layer.borderWidth = 1.0
+            
+        }
+        return cell
+}
+    
+    func collectionView(collectionView: UICollectionView!, didSelectItemAtIndexPath indexPath: NSIndexPath!) {
+        var wallet = WalletClass.sharedInstance
+        var tags = wallet.getTagsArray()
+        var tag = tags[indexPath.row] as PFObject
+        var tagId = tag.objectId
+        
+        if find(selectedTagIDs, tagId) == nil {
+            selectedTagIDs.append(tagId)
+            tag["selected"] = true
+        } else {
+            selectedTagIDs.removeAtIndex(find(selectedTagIDs, tagId)!)
+            tag["selected"] = false
+        }
+        
+        filteredCardArray = []
+        
+        for cardObject in wallet.getCardsArray() {
+            for selectedTagID in selectedTagIDs {
+                if contains(cardObject["tags"] as [String], selectedTagID) {
+                    if !contains(filteredCardArray, cardObject) {
+                        filteredCardArray.append(cardObject)
+                    }
+                }
+            }
+        }
+        
+//        for row in wallet.getCardsArray() {
+//            find(row, selectedTagIDs, row
+//        }
+        
+        collectionView.reloadData()
+        tableView.reloadData()
+
     }
     
     func startAppWithUser() {
         var wallet = WalletClass.sharedInstance
-        
-//        var tag = wallet.
-        
-//        var object = PFObject(className: "GlobalTagClass")
-//        object["tag"] = "Cards"
-//        object.saveInBackgroundWithBlock {
-//            (finished: Bool, error: NSError!) -> Void in
-//            if error == nil {
-//                
-//            }
-//        }
-//        var object2 = PFObject(className: "GlobalTagClass")
-//        object2["tag"] = "Memberships"
-//        object2.saveInBackgroundWithBlock {
-//            (finished: Bool, error: NSError!) -> Void in
-//            if error == nil {
-//                
-//            }
-//        }
-//        var object3 = PFObject(className: "GlobalTagClass")
-//        object3["tag"] = "Coupons"
-//        object3.saveInBackgroundWithBlock {
-//            (finished: Bool, error: NSError!) -> Void in
-//            if error == nil {
-//                
-//            }
-//        }
-//        var object4 = PFObject(className: "GlobalTagClass")
-//        object4["tag"] = "Insurance"
-//        object4.saveInBackgroundWithBlock {
-//            (finished: Bool, error: NSError!) -> Void in
-//            if error == nil {
-//                
-//            }
-//        }
-        
-        
         wallet.getAllCards()
         wallet.getTags()
         
@@ -76,6 +118,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         if wallet.getCardsArray().count > 0 {
             tableView.hidden = false
         }
+        
+        if (selectedTagIDs.count > 0) {
+            return filteredCardArray.count
+        }
         return wallet.getCardsArray().count
     }
     
@@ -83,6 +129,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         var cell = tableView.dequeueReusableCellWithIdentifier("cell") as PhotoTableViewCell
         var wallet = WalletClass.sharedInstance
         var row = wallet.getCardsArray()[indexPath.row]
+        if selectedTagIDs.count > 0 {
+            row = filteredCardArray[indexPath.row]
+        }
+        
         var title = row["title"] as String
         cell.mainTitle.text = title
         
@@ -108,8 +158,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func updateTableView(notification: NSNotification!) {
-        var wallet = WalletClass.sharedInstance
         tableView.reloadData()
+    }
+    
+    func updateTagCollectionView(notification: NSNotification!) {
+        tagCollectionView.reloadData()
     }
     
     func signUp() {
