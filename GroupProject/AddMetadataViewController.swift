@@ -21,6 +21,7 @@ class AddMetadataViewController: ViewController, UICollectionViewDelegateFlowLay
     var selectedTagIDs: [String]! = [String]()
     
     var tagArray = [String]()
+    var didSave: Bool!
     
 //    var textLabel: [UITextLabel]!
     
@@ -33,6 +34,12 @@ class AddMetadataViewController: ViewController, UICollectionViewDelegateFlowLay
         imageCollectionView!.dataSource = self
         imageCollectionView!.delegate = self
         
+        didSave = false
+        
+        var wallet = WalletClass.sharedInstance
+        for row in wallet.getTagsArray() {
+            row["selected"] = false
+        }
         // Do any additional setup after loading the view.
     }
     
@@ -49,18 +56,20 @@ class AddMetadataViewController: ViewController, UICollectionViewDelegateFlowLay
     func collectionView(collectionView: UICollectionView!, numberOfItemsInSection section: Int) -> Int {
         var wallet = WalletClass.sharedInstance
         if (collectionView == imageCollectionView) {
-            return 3
+            return cardImageArray.count
         } else {
             return wallet.getTagsArray().count
         }
-        
     }
     
     // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
     func collectionView(collectionView: UICollectionView!, cellForItemAtIndexPath indexPath: NSIndexPath!) -> UICollectionViewCell! {
         var wallet = WalletClass.sharedInstance
         if (collectionView == imageCollectionView) {
-            var cell = collectionView.dequeueReusableCellWithReuseIdentifier("imageCell", forIndexPath: indexPath) as UICollectionViewCell
+            var cell = collectionView.dequeueReusableCellWithReuseIdentifier("imageCell", forIndexPath: indexPath) as PhotoCollectionViewCell
+            cell.imageView.frame = CGRect(x: cell.imageView.frame.origin.x, y: cell.imageView.frame.origin.x, width: 200, height: 200)
+            cell.imageView.image = cardImageArray[indexPath.row]
+            println("cell size: \(cell.frame.size) | image frame size: \(cell.imageView.frame.size)")
             return cell
         } else {
             var cell = collectionView.dequeueReusableCellWithReuseIdentifier("tagCell", forIndexPath: indexPath) as TagCollectionViewCell
@@ -99,14 +108,12 @@ class AddMetadataViewController: ViewController, UICollectionViewDelegateFlowLay
                 tag["selected"] = false
             }
             collectionView.reloadData()
-            
-            println(tagId)
-            println(selectedTagIDs)
         }
     }
     
     @IBAction func onSaveButton(sender: AnyObject) {
         var photo = CardClass(title: titleTextField.text, imageArray: cardImageArray, uid: PFUser.currentUser(), tags: selectedTagIDs, isFavorite: false)
+        didSave = true
         dismissViewControllerAnimated(true, completion: nil)
     }
     

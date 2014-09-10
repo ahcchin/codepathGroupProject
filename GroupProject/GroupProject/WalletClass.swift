@@ -60,7 +60,7 @@ class WalletClass {
         query.findObjectsInBackgroundWithBlock({
             (block: [AnyObject]!, error: NSError!) in
             if error == nil {
-                println("getting \(block.count) tags")
+                println("getting \(block.count) tags1")
                 for row in block {
                     var object = row as PFObject
                     object["selected"] = false
@@ -68,7 +68,6 @@ class WalletClass {
                 }
                 
                 self.getGlobalTags()
-//                NSNotificationCenter.defaultCenter().postNotificationName("kUpdatedCardsArray", object: nil)
             } else {
                 
             }
@@ -81,7 +80,7 @@ class WalletClass {
         query.findObjectsInBackgroundWithBlock({
             (block: [AnyObject]!, error: NSError!) in
             if error == nil {
-                println("getting \(block.count) tags")
+                println("getting \(block.count) tags2")
                 for row in block {
                     var object = row as PFObject
                     object["selected"] = false
@@ -91,11 +90,9 @@ class WalletClass {
                 
             }
         })
-        
     }
     
     func getTagsArray() -> [PFObject] {
-    
         return self.tagsArray
     }
     

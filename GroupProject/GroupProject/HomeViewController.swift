@@ -65,8 +65,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         wallet.getAllCards()
         wallet.getTags()
-
-        wallet.getGlobalTags()
         
         if wallet.getCardsArray().count > 0 {
             tableView.hidden = false
