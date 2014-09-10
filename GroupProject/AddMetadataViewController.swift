@@ -66,13 +66,17 @@ class AddMetadataViewController: ViewController, UICollectionViewDelegateFlowLay
             var cell = collectionView.dequeueReusableCellWithReuseIdentifier("tagCell", forIndexPath: indexPath) as TagCollectionViewCell
             var row = wallet.getTagsArray()[indexPath.row]
             cell.tagLabel.text = row["tag"] as String
-            
+            cell.layer.cornerRadius = 4.0
+          
             if (row["selected"] as Bool == true) {
-                cell.backgroundColor = UIColor.grayColor()
+                cell.backgroundColor =  UIColor.grayColor()
                 cell.tagLabel.textColor = UIColor.whiteColor()
             } else {
                 cell.backgroundColor = nil
-                cell.tagLabel.textColor = UIColor.blackColor()
+                cell.tagLabel.textColor = UIColor.grayColor()
+                cell.layer.borderColor = UIColor.grayColor().CGColor
+                cell.layer.borderWidth = 1.0
+
             }
             return cell
         }
