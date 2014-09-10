@@ -36,7 +36,7 @@ class AddMetadataViewController: ViewController, UICollectionViewDelegateFlowLay
         imageCollectionView!.delegate = self
         
         didSave = false
-        cardImageArray.append(UIImage(named: "camera"))
+        cardImageArray.append(UIImage(named: "AddPhoto"))
         
         var wallet = WalletClass.sharedInstance
         for row in wallet.getTagsArray() {

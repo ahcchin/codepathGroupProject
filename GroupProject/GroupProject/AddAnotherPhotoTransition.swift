@@ -44,7 +44,6 @@ class AddAnotherPhotoTransition: NSObject, UIViewControllerTransitioningDelegate
                     transitionContext.completeTransition(true)
                     var cameraViewController = toViewController as CameraViewController
                     cameraViewController.didAddAnother = true
-                    println("in transition done \(cameraViewController.didAddAnother)")
             })
             
         } else {
@@ -55,18 +54,16 @@ class AddAnotherPhotoTransition: NSObject, UIViewControllerTransitioningDelegate
             var selectedImage = (fromViewController as CameraViewController).selectedImage
             addMetadataViewController.cardImageArray.removeLast()
             addMetadataViewController.cardImageArray.append(selectedImage)
-            addMetadataViewController.cardImageArray.append(UIImage(named: "camera"))
+            addMetadataViewController.cardImageArray.append(UIImage(named: "AddPhoto"))
             addMetadataViewController.imageCollectionView.reloadData()
             addMetadataViewController.titleTextField.becomeFirstResponder()
             (fromViewController as CameraViewController).didAddAnother = false
-            println("card Array \(addMetadataViewController.cardImageArray)")
             
             UIView.animateWithDuration(duration, animations: {
                 toViewController.view.alpha = 1
                 }, completion: {
                     (finished: Bool) in
                     transitionContext.completeTransition(true)
-                    println("card Array \(addMetadataViewController.cardImageArray)")
             })
         }
     }
