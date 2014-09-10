@@ -15,6 +15,7 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, UI
     var didCancelCamera: Bool!
     var didChoosePhoto: Bool!
     var didCancelDetails: Bool!
+    var didAddAnother: Bool!
     var zoomTransition: ZoomTransition!
 
     override func viewDidLoad() {
@@ -23,6 +24,9 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, UI
         didCancelCamera = false
         didChoosePhoto = false
         didCancelDetails = false
+        didAddAnother = false
+        
+        println("view did load")
     }
 
     override func didReceiveMemoryWarning() {
@@ -31,11 +35,19 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, UI
     }
     
     override func viewDidAppear(animated: Bool) {
+        println("viewDidAppear in CameraView \(didAddAnother)")
         if didCancelCamera == false && didChoosePhoto == false || didCancelDetails == true {
             showCamera()
         } else {
             if didChoosePhoto == true {
-                performSegueWithIdentifier("addCardDetailsSegue", sender: self)
+                println("didChoosePhoto in viewDidAppear")
+                if didAddAnother == true {
+                    println("dismissed to go back to addMeta")
+                    dismissViewControllerAnimated(true, completion: nil)
+                } else {
+                    println("performed segue to go to addMeta")
+                    performSegueWithIdentifier("addCardDetailsSegue", sender: self)
+                }
             } else {
                 dismissViewControllerAnimated(false, completion: nil)
             }
@@ -54,20 +66,20 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, UI
         picker.cameraDevice = UIImagePickerControllerCameraDevice.Rear
         picker.showsCameraControls = false
         
-        var overlay = UIView(frame: CGRect(x: 0, y: self.view.frame.height - 100, width: self.view.frame.width, height: 100))
+        var overlay = UIView(frame: CGRect(x: 0, y: self.view.frame.height - 120, width: self.view.frame.width, height: 100))
         
         var shootButton = UIButton(frame: CGRect(x: (self.view.frame.width - 100) / 2, y: 0, width: 100, height: 100))
-        shootButton.backgroundColor = UIColor(red: 1, green: 0, blue: 0, alpha: 1)
+        shootButton.setImage(UIImage(named: "TakePhoto"), forState: UIControlState.Normal)
         shootButton.addTarget(self, action: Selector("takePhoto"), forControlEvents: UIControlEvents.TouchUpInside)
         overlay.addSubview(shootButton)
         
         var cancelButton = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        cancelButton.backgroundColor = UIColor(red: 1, green: 1, blue: 0, alpha: 1)
+        cancelButton.setTitle("Cancel", forState: UIControlState.Normal)
         cancelButton.addTarget(self, action: Selector("cancelPhoto"), forControlEvents: UIControlEvents.TouchUpInside)
         overlay.addSubview(cancelButton)
         
         var chooseButton = UIButton(frame: CGRect(x: self.view.frame.width - 100, y: 0, width: 100, height: 100))
-        chooseButton.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
+        chooseButton.setTitle("Choose", forState: UIControlState.Normal)
         chooseButton.addTarget(self, action: Selector("choosePhoto"), forControlEvents: UIControlEvents.TouchUpInside)
         overlay.addSubview(chooseButton)
         

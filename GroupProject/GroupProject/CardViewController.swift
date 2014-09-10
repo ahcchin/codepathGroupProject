@@ -8,30 +8,45 @@
 
 import UIKit
 
-class CardViewController: UIViewController {
+class CardViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
 
-    @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var navBar: UINavigationBar!
+    @IBOutlet weak var photoCollectionView: UICollectionView!
+    @IBOutlet weak var photoCollectionViewFlowLayout: UICollectionViewFlowLayout!
+    
     var card: PFObject!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        var imageFileArray = card["imageFileArray"] as [AnyObject]
-        for imageFile in imageFileArray {
-            var cardImageFile = imageFile as PFFile
-            cardImageFile.getDataInBackgroundWithBlock({
-                (imageData: NSData!, error: NSError!) -> Void in
-                if error == nil {
-                    self.imageView.image = UIImage(data:imageData)
-                } else {
-                    
-                }
-            })
-        }
-        navBar.topItem.title = card["title"] as String
         
+        photoCollectionView.delegate = self
+        photoCollectionView.dataSource = self
+
+        navBar.topItem.title = card["title"] as String
         // Do any additional setup after loading the view.
+    }
+    
+    func collectionView(collectionView: UICollectionView!, numberOfItemsInSection section: Int) -> Int {
+        println(card["imageFileArray"])
+        return (card["imageFileArray"] as [AnyObject]).count
+    }
+    
+    // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
+    func collectionView(collectionView: UICollectionView!, cellForItemAtIndexPath indexPath: NSIndexPath!) -> UICollectionViewCell! {
+        var cell = collectionView.dequeueReusableCellWithReuseIdentifier("photoCell", forIndexPath: indexPath) as PhotoCollectionViewCell
+        cell.imageView.frame = CGRect(x: cell.imageView.frame.origin.x, y: cell.imageView.frame.origin.x, width: 320, height: 568)
+        
+        var imageFileArray = card["imageFileArray"] as [AnyObject]
+        var cardImageFile = imageFileArray[indexPath.row] as PFFile
+        cardImageFile.getDataInBackgroundWithBlock({
+            (imageData: NSData!, error: NSError!) -> Void in
+            if error == nil {
+                cell.imageView.image = UIImage(data:imageData)
+            } else {
+                
+            }
+        })
+        return cell
     }
 
     @IBAction func onBackButton(sender: AnyObject) {
