@@ -15,6 +15,7 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, UI
     var didCancelCamera: Bool!
     var didChoosePhoto: Bool!
     var didCancelDetails: Bool!
+    var didAddAnother: Bool!
     var zoomTransition: ZoomTransition!
 
     override func viewDidLoad() {
@@ -23,6 +24,9 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, UI
         didCancelCamera = false
         didChoosePhoto = false
         didCancelDetails = false
+        didAddAnother = false
+        
+        println("view did load")
     }
 
     override func didReceiveMemoryWarning() {
@@ -31,11 +35,19 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, UI
     }
     
     override func viewDidAppear(animated: Bool) {
+        println("viewDidAppear in CameraView \(didAddAnother)")
         if didCancelCamera == false && didChoosePhoto == false || didCancelDetails == true {
             showCamera()
         } else {
             if didChoosePhoto == true {
-                performSegueWithIdentifier("addCardDetailsSegue", sender: self)
+                println("didChoosePhoto in viewDidAppear")
+                if didAddAnother == true {
+                    println("dismissed to go back to addMeta")
+                    dismissViewControllerAnimated(true, completion: nil)
+                } else {
+                    println("performed segue to go to addMeta")
+                    performSegueWithIdentifier("addCardDetailsSegue", sender: self)
+                }
             } else {
                 dismissViewControllerAnimated(false, completion: nil)
             }

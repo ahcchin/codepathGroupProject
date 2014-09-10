@@ -87,17 +87,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.mainTitle.text = title
         
         var cellImageFileArray = row["imageFileArray"] as [AnyObject]
-        for imageFile in cellImageFileArray {
-            var cellImageFile = imageFile as PFFile
-            cellImageFile.getDataInBackgroundWithBlock({
-                (imageData: NSData!, error: NSError!) -> Void in
-                if error == nil {
-                    cell.photoImageView.image = UIImage(data:imageData)
-                } else {
-                    
-                }
-            })
-        }
+        var cellImageFile = cellImageFileArray[0] as PFFile
+        cellImageFile.getDataInBackgroundWithBlock({
+            (imageData: NSData!, error: NSError!) -> Void in
+            if error == nil {
+                cell.photoImageView.image = UIImage(data:imageData)
+            } else {
+                
+            }
+        })
         
         return cell
     }
@@ -160,7 +158,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Pass the selected object to the new view controller.
         
         if segue.identifier == "viewCardSegue" {
-            
             var destinationViewController = segue.destinationViewController as CardViewController
             var wallet = WalletClass.sharedInstance
             destinationViewController.card = wallet.getCardsArray()[selectedCard]
@@ -170,9 +167,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             destinationViewController.modalPresentationStyle = UIModalPresentationStyle.Custom
             destinationViewController.transitioningDelegate = zoomTransition
-            
         } else if segue.identifier == "createCardSegue" {
-            
             var destinationViewController = segue.destinationViewController as CameraViewController
             
             zoomTransition = ZoomTransition()
@@ -180,10 +175,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             destinationViewController.modalPresentationStyle = UIModalPresentationStyle.Custom
             destinationViewController.transitioningDelegate = zoomTransition
-            
         }
-        
-        
     }
 
 }
