@@ -119,10 +119,18 @@ class AddMetadataViewController: ViewController, UICollectionViewDelegateFlowLay
         cardImageArray.removeLast()
         var photo = CardClass(title: titleTextField.text, imageArray: cardImageArray, uid: PFUser.currentUser(), tags: selectedTagIDs, isFavorite: false)
         didSave = true
+        var wallet = WalletClass.sharedInstance
+        for row in wallet.getTagsArray() {
+            row["selected"] = false
+        }
         dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func onCancelButton(sender: AnyObject) {
+        var wallet = WalletClass.sharedInstance
+        for row in wallet.getTagsArray() {
+            row["selected"] = false
+        }
         dismissViewControllerAnimated(true, completion: nil)
     }
    
