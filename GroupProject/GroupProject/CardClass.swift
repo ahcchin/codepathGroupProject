@@ -43,7 +43,6 @@ class CardClass {
         object.saveInBackgroundWithBlock {
             (finished: Bool, error: NSError!) -> Void in
             if error == nil {
-//                wallet.getAllCards()
                 println("finished creating card")
             } else {
                 

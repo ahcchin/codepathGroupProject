@@ -53,6 +53,14 @@ class ZoomTransition: NSObject, UIViewControllerTransitioningDelegate, UIViewCon
                 }, completion: {
                     (finished: Bool) in
                     transitionContext.completeTransition(true)
+                    if toViewController is CameraViewController {
+                        if (fromViewController as AddMetadataViewController).didSave == true {
+                            toViewController.dismissViewControllerAnimated(true, completion: nil)
+                        } else {
+                            (toViewController as CameraViewController).showCamera()
+                        }
+                    }
+                    
             })
         }
     }
