@@ -14,8 +14,6 @@ class WalletClass {
     var cardsArray = [PFObject]()
     var tagsArray = [PFObject]()
     
-    var filteredCardsArray = [PFObject]()
-    
     class var sharedInstance: WalletClass {
         struct Static {
             static var instance: WalletClass?
@@ -99,12 +97,6 @@ class WalletClass {
         return self.tagsArray
     }
     
-    func filteredArray() ->[PFObject] {
-        
-        
-        
-        return filteredCardsArray
-    }
     
     func deleteCard(index: Int) {
         self.cardsArray.removeAtIndex(index)

@@ -94,10 +94,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         }
         
-//        for row in wallet.getCardsArray() {
-//            find(row, selectedTagIDs, row
-//        }
-        
         collectionView.reloadData()
         tableView.reloadData()
 
